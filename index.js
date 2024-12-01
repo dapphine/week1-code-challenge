@@ -17,6 +17,10 @@ function gradeGenerator() {
     }
 }
 
+
+
+
+
 gradeGenerator();
 
 
@@ -40,6 +44,10 @@ gradeGenerator();
         }
     }
     
+
+
+
+
     speedDetector();
 
 
