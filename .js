@@ -1,8 +1,7 @@
 function speedDetector() {
-    const speed = prompt("Enter the speed of the car:");
+    const speed = prompt"Enter the speed of the car:";
     const limit = 70;
     const kmPerPoint = 5;
-
     if (speed <= limit) {
         console.log("Ok");
     } else {
@@ -10,7 +9,7 @@ function speedDetector() {
         if (points > 12) {
             console.log("License suspended");
         } else {
-            console.log('Points: ${points');
+            console.log'Points: ${points';
         }
     }
 }
