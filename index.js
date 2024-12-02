@@ -1,4 +1,6 @@
-function gradeGenerator() {
+
+    //we have to get a function and also request user enter the students marks here.
+    function gradeGenerator() {
     const marks = prompt("Enter the student's marks (0 - 100):");
     const score = parseInt(marks);
     if (score < 0 || score > 100 || isNaN(score)) {
