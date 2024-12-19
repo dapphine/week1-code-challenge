@@ -1,30 +1,32 @@
+// SPEED DETECTOR
+function speedDetector(speed) {
+    console.log(`Input speed: ${speed}`); // Log the input speed for debugging
 
-function motionAnalyzer(speed) { 
-    const motionLimit = 70; // The speed limit for drivers.
-    const distancePerPoint = 5; // Points are awarded for every 5 km/h over the limit.
+    // Check if the speed input is valid
+    if (typeof speed !== "number" || speed < 0) {
+        console.log("Invalid speed input detected");
+        return "Invalid speed. Please enter a non-negative number.";
+    }
 
-    if (speed <= motionLimit) { 
-        // If speed is within the limit, output "Ok".
-        console.log("Ok");
-    } else { 
-        // Calculate points for exceeding the speed limit.
-       
-        let points = Math.floor((speed - motionLimit) / distancePerPoint); // Calculate points for exceeding the speed limit.
+    const speedLimit = 70; // Define the speed limit
+    const kmPerDemerit = 5; // Define the km/h above limit per demerit point
+    console.log(`Speed limit: ${speedLimit}, Km per demerit: ${kmPerDemerit}`); // Debug constants
 
-        if (points > 12) { 
-            // If points exceed 12, license is suspended.
-            console.log("License suspended");
-        } else {
-            // Otherwise, display the points.
-            console.log(`Points: ${points}`);
-        }
+    // Check if the speed is within the limit
+    if (speed <= speedLimit) {
+        console.log("Speed is within limit: Ok");
+        return "Ok";
+    } else {
+        // Calculate demerit points for exceeding the limit
+        const demeritPoints = Math.floor((speed - speedLimit) / kmPerDemerit);
+        console.log(`Calculated demerit points: ${demeritPoints}`); // Debug demerit points
+
+        // Determine the result based on demerit points
+        const result = demeritPoints > 12 ? "License suspended" : `Points: ${demeritPoints}`;
+        console.log(`Result: ${result}`);
+        return result;
     }
 }
 
-// Test cases
-motionAnalyzer(80); // Test case 1: Speed = 80
-motionAnalyzer(80);  // Test case 1: Speed = 80
-motionAnalyzer(350); // Test case 2: Speed = 350
-
- 
-	
+// Example usage
+console.log(speedDetector(85)); // Outputs: Points: 3

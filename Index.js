@@ -1,105 +1,88 @@
 
+// NET SALARY CALCULATOR
+function netSalaryCalculator(basicSalary, benefits) {
+    console.log(`Basic salary: ${basicSalary}, Benefits: ${benefits}`); // Log input values for debugging
 
-function calculateNetSalary(basicSalary, benefits) {
-  const grossSalary = basicSalary + benefits;
-  
-  
+    // Validate the input values
+    if (typeof basicSalary !== "number" || typeof benefits !== "number" || basicSalary < 0 || benefits < 0) {
+        console.log("Invalid salary or benefits input detected");
+        return "Invalid input. Please enter non-negative numbers for salary and benefits.";
+    }
 
-  // The tax one  pay as you earn 
-  let paye;
-  if (grossSalary <= 24000) {
-      paye = grossSalary * 0.1;
-  } else if (grossSalary <= 32333) {
-      paye = grossSalary * 0.25;
-  } else if (grossSalary <= 500000) {
-      paye = grossSalary * 0.3;
-  } else if (grossSalary <= 800000) {
-      paye = grossSalary * 0.325;
-  } else {
-      paye = grossSalary * 0.35;
-  }
+    const grossSalary = basicSalary + benefits; // Calculate the gross salary
+    console.log(`Gross salary calculated: ${grossSalary}`); // Debug gross salary
 
-  // NHIF Deduction Calculation according to earnings
-  let nhif;
-  if (grossSalary <= 5999) {
-      nhif = 150;
-  } else if (grossSalary <= 7999) {
-      nhif = 300;
-  } else if (grossSalary <= 11999) {
-      nhif = 400;
-  } else if (grossSalary <= 14999) {
-      nhif = 500;
-  } else if (grossSalary <= 19999) {
-      nhif = 600;
-  } else if (grossSalary <= 24999) {
-      nhif = 750;
-  } else if (grossSalary <= 29999) {
-      nhif = 850;
-  } else if (grossSalary <= 34999) {
-      nhif = 900;
-  } else if (grossSalary <= 39999) {
-      nhif = 950;
-  } else if (grossSalary <= 44999) {
-      nhif = 1000;
-  } else if (grossSalary <= 49999) {
-      nhif = 1100;
-  } else if (grossSalary <= 59999) {
-      nhif = 1200;
-  } else if (grossSalary <= 69999) {
-      nhif = 1300;
-  } else if (grossSalary <= 79999) {
-      nhif = 1400;
-  } else if (grossSalary <= 89999) {
-      nhif = 1500;
-  } else if (grossSalary <= 99999) {
-      nhif = 1600;
-  } else {
-      nhif = 1700;
-  }
+    // Calculate PAYE (tax) based on gross salary brackets
+    let paye;
+    if (grossSalary <= 24000) {
+        paye = grossSalary * 0.1;
+    } else if (grossSalary <= 32333) {
+        paye = grossSalary * 0.25;
+    } else {
+        paye = grossSalary * 0.3;
+    }
+    console.log(`PAYE calculated: ${paye}`); // Debug PAYE
 
-  // NSSF Deduction Calculation
-  let nssf;
-  let tier1Limit = 7000;
-  let tier2Limit = 36000;
-  let tier1Contribution = 0;
-  let tier2Contribution = 0;
+    // Calculate NHIF deductions based on gross salary brackets
+    let nhif;
+    if (grossSalary <= 5999) {
+        nhif = 150;
+    } else if (grossSalary <= 7999) {
+        nhif = 300;
+    } else if (grossSalary <= 11999) {
+        nhif = 400;
+    } else if (grossSalary <= 14999) {
+        nhif = 500;
+    } else if (grossSalary <= 19999) {
+        nhif = 600;
+    } else if (grossSalary <= 24999) {
+        nhif = 750;
+    } else if (grossSalary <= 29999) {
+        nhif = 850;
+    } else if (grossSalary <= 34999) {
+        nhif = 900;
+    } else if (grossSalary <= 39999) {
+        nhif = 950;
+    } else if (grossSalary <= 44999) {
+        nhif = 1000;
+    } else if (grossSalary <= 49999) {
+        nhif = 1100;
+    } else if (grossSalary <= 59999) {
+        nhif = 1200;
+    } else if (grossSalary <= 69999) {
+        nhif = 1300;
+    } else if (grossSalary <= 79999) {
+        nhif = 1400;
+    } else if (grossSalary <= 89999) {
+        nhif = 1500;
+    } else if (grossSalary <= 99999) {
+        nhif = 1600;
+    } else {
+        nhif = 1700;
+    }
+    console.log(`NHIF calculated: ${nhif}`); // Debug NHIF
 
-  // Tier 1 Contribution
-  if (grossSalary <= tier1Limit) {
-      tier1Contribution = grossSalary * 0.06;
-  } else {
-      tier1Contribution = tier1Limit * 0.06;
-  }
+    // Calculate NSSF deductions (capped at 6% of gross salary or 1800)
+    const nssf = Math.min(grossSalary * 0.06, 1800);
+    console.log(`NSSF calculated: ${nssf}`); // Debug NSSF
 
-  // Tier 2 Contribution
-  if (grossSalary > tier1Limit) {
-      if (grossSalary <= tier2Limit) {
-          tier2Contribution = (grossSalary - tier1Limit) * 0.06;
-      } else {
-          tier2Contribution = (tier2Limit - tier1Limit) * 0.06;
-      }
-  }
+    // Calculate total deductions
+    const deductions = paye + nhif + nssf;
+    console.log(`Total deductions calculated: ${deductions}`); // Debug total deductions
 
-  // Total NSSF Contribution
-  nssf = tier1Contribution + tier2Contribution;
+    // Calculate net salary
+    const netSalary = grossSalary - deductions;
+    console.log(`Net salary calculated: ${netSalary}`); // Debug net salary
 
-  // Total Deductions
-  const totalDeductions = paye + nhif + nssf;
-
-  // Net Salary
-  const netSalary = grossSalary - totalDeductions;
-
-  // Output Results of all the deductions and the salary one recieves
-  console.log(`Gross Salary: Ksh ${grossSalary}`);
-  console.log(`PAYE Deduction: Ksh ${paye}`);
-  console.log(`NHIF Deduction: Ksh ${nhif}`);
-  console.log(`NSSF Deduction: Ksh ${nssf}`);
-  console.log(`Total Deductions: Ksh ${totalDeductions}`);
-  console.log(`Net Salary: Ksh ${netSalary}`);
+    return {
+        grossSalary,
+        paye,
+        nhif,
+        nssf,
+        netSalary
+    };
 }
 
-// execute your  salary here !!!
- calculateNetSalary(300000,1000000);
-//
-
-	
+// Example usage
+const salaryDetails = netSalaryCalculator(50000, 10000);
+console.log(salaryDetails);
