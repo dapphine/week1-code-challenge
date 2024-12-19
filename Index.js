@@ -1,45 +1,105 @@
-function netSalaryCalculator() {
-    const basicSalary = parseFloat(prompt("Enter your basic salary:"));
-    const benefits = parseFloat(prompt("Enter your benefits:"));
 
-    if (isNaN(basicSalary) || isNaN(benefits)) {
-        console.log("Invalid input. Please enter numeric values.");
-        return;
-    }
 
-    const grossSalary = basicSalary + benefits;
+function calculateNetSalary(basicSalary, benefits) {
+  const grossSalary = basicSalary + benefits;
+  
+  
 
-    // Tax calculation based on KRA rates
-    let tax = 0;
-    if (grossSalary <= 24000) tax = grossSalary * 0.1;
-    else if (grossSalary <= 32333) tax = grossSalary * 0.25;
-    else tax = grossSalary * 0.3;
+  // The tax one  pay as you earn 
+  let paye;
+  if (grossSalary <= 24000) {
+      paye = grossSalary * 0.1;
+  } else if (grossSalary <= 32333) {
+      paye = grossSalary * 0.25;
+  } else if (grossSalary <= 500000) {
+      paye = grossSalary * 0.3;
+  } else if (grossSalary <= 800000) {
+      paye = grossSalary * 0.325;
+  } else {
+      paye = grossSalary * 0.35;
+  }
 
-    // NHIF deduction
-    const nhifRates = [
-        { min: 0, max: 5999, deduction: 150 },
-        { min: 6000, max: 7999, deduction: 300 },
-        { min: 8000, max: 11999, deduction: 400 },
-        { min: 12000, max: 14999, deduction: 500 },
-        { min: 15000, max: 19999, deduction: 600 },
-        { min: 20000, max: 24999, deduction: 750 },
-        { min: 25000, max: 29999, deduction: 850 },
-        { min: 30000, max: 34999, deduction: 900 },
-        { min: 35000, max: 39999, deduction: 950 },
-        { min: 40000, max: Infinity, deduction: 1000 }
-    ];
-    const nhifDeduction = nhifRates.find(rate => grossSalary >= rate.min && grossSalary <= rate.max).deduction;
+  // NHIF Deduction Calculation according to earnings
+  let nhif;
+  if (grossSalary <= 5999) {
+      nhif = 150;
+  } else if (grossSalary <= 7999) {
+      nhif = 300;
+  } else if (grossSalary <= 11999) {
+      nhif = 400;
+  } else if (grossSalary <= 14999) {
+      nhif = 500;
+  } else if (grossSalary <= 19999) {
+      nhif = 600;
+  } else if (grossSalary <= 24999) {
+      nhif = 750;
+  } else if (grossSalary <= 29999) {
+      nhif = 850;
+  } else if (grossSalary <= 34999) {
+      nhif = 900;
+  } else if (grossSalary <= 39999) {
+      nhif = 950;
+  } else if (grossSalary <= 44999) {
+      nhif = 1000;
+  } else if (grossSalary <= 49999) {
+      nhif = 1100;
+  } else if (grossSalary <= 59999) {
+      nhif = 1200;
+  } else if (grossSalary <= 69999) {
+      nhif = 1300;
+  } else if (grossSalary <= 79999) {
+      nhif = 1400;
+  } else if (grossSalary <= 89999) {
+      nhif = 1500;
+  } else if (grossSalary <= 99999) {
+      nhif = 1600;
+  } else {
+      nhif = 1700;
+  }
 
-    // NSSF deduction
-    const nssfDeduction = Math.min(grossSalary * 0.06, 1800);
+  // NSSF Deduction Calculation
+  let nssf;
+  let tier1Limit = 7000;
+  let tier2Limit = 36000;
+  let tier1Contribution = 0;
+  let tier2Contribution = 0;
 
-    const netSalary = grossSalary - tax - nhifDeduction - nssfDeduction;
+  // Tier 1 Contribution
+  if (grossSalary <= tier1Limit) {
+      tier1Contribution = grossSalary * 0.06;
+  } else {
+      tier1Contribution = tier1Limit * 0.06;
+  }
 
-    console.log('Gross Salary: ${grossSalary}');
-    console.log('Tax: ${tax}');
-    console.log('NHIF Deduction: ${nhifDeduction}');
-    console.log('NSSF Deduction: ${nssfDeduction}');
-    console.log('Net Salary: ${netSalary}');
+  // Tier 2 Contribution
+  if (grossSalary > tier1Limit) {
+      if (grossSalary <= tier2Limit) {
+          tier2Contribution = (grossSalary - tier1Limit) * 0.06;
+      } else {
+          tier2Contribution = (tier2Limit - tier1Limit) * 0.06;
+      }
+  }
+
+  // Total NSSF Contribution
+  nssf = tier1Contribution + tier2Contribution;
+
+  // Total Deductions
+  const totalDeductions = paye + nhif + nssf;
+
+  // Net Salary
+  const netSalary = grossSalary - totalDeductions;
+
+  // Output Results of all the deductions and the salary one recieves
+  console.log(`Gross Salary: Ksh ${grossSalary}`);
+  console.log(`PAYE Deduction: Ksh ${paye}`);
+  console.log(`NHIF Deduction: Ksh ${nhif}`);
+  console.log(`NSSF Deduction: Ksh ${nssf}`);
+  console.log(`Total Deductions: Ksh ${totalDeductions}`);
+  console.log(`Net Salary: Ksh ${netSalary}`);
 }
 
-netSalaryCalculator();
+// execute your  salary here !!!
+ calculateNetSalary(300000,1000000);
+//
+
+	
